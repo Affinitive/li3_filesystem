@@ -115,14 +115,10 @@ class File extends \lithium\core\Object {
 		return function($self, $params) use (&$path) {
 			$path = "{$path}/{$params['filename']}";
 
-			clearstatcache();
+			clearstatcache(true, $path);
 			return file_exists($path);
 		};
 	}
-
-
 }
-
-
 
 ?>
