@@ -99,7 +99,12 @@ class File extends \lithium\core\Object {
 			$path = "{$path}/{$params['filename']}";
 
 			if (file_exists($path)) {
-				return unlink($path);
+				if (is_dir($path)) {
+					return rmdir($path);
+				}
+				if (is_file($path)) {
+					return unlink($path);
+				}
 			}
 
 			return false;
@@ -117,6 +122,27 @@ class File extends \lithium\core\Object {
 
 			clearstatcache(true, $path);
 			return file_exists($path);
+		};
+	}
+
+	/**
+	 * @param string $filename
+	 * @return boolean
+	 */
+	public function makeDir($filename, $params = array()) {
+		$path = $this->_config['path'];
+		return function($self, $params) use (&$path) {
+			$params += array(
+				'mode' => 0777,
+				'recursive' => true
+			);
+			extract($params);
+			$path = "{$path}/{$params['filename']}";
+			if (!file_exists($path)) {
+				mkdir($path, $mode, $recursive);
+				return file_exists($path);
+			}
+			return true;
 		};
 	}
 }

@@ -69,19 +69,28 @@ class FileSystemTest extends \lithium\test\Integration {
 		));
 		FileSystem::config($config);
 
+		$path = "test_folder/";
 		$filename = 'test_file';
 		$data     = 'Some test content';
 
 		$this->assertFalse(FileSystem::exists('default', $filename));
 
+		$this->assertTrue(FileSystem::makeDir('default', $path));
+
 		$this->assertTrue(FileSystem::write('default', $filename, $data));
+		$this->assertTrue(FileSystem::write('default', "{$path}{$filename}", $data));
 
 		$this->assertTrue(FileSystem::exists('default', $filename));
 
 		$result = FileSystem::read('default', $filename);
 		$this->assertEqual($data, $result);
+		$result = FileSystem::read('default', "{$path}{$filename}");
+		$this->assertEqual($data, $result);
+
 
 		$this->assertTrue(FileSystem::delete('default', $filename));
+		$this->assertTrue(FileSystem::delete('default', "{$path}{$filename}"));
+		$this->assertTrue(FileSystem::delete('default', $path));
 	}
 
 
