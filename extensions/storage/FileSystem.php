@@ -174,6 +174,49 @@ class FileSystem extends \lithium\core\Adaptable {
 		return static::_filter(__FUNCTION__, $params, $method, $settings[$name]['filters']);
 	}
 
+
+	/**
+	 * Gets Image Dimensions
+	 *
+	 * @param string $name Configuration to be used for deletion
+	 * @param mixed $filename a full path with filename and extension to be read
+	 * @param mixed $options Options for the method and strategies.
+	 * @return boolean True on successful check, false otherwise
+	 * @filter This method may be filtered.
+	 */
+	public static function getImageSize($name, $filename, array $options = array()) {
+		$settings = static::config();
+
+		if (!isset($settings[$name])) {
+			return false;
+		}
+
+		$method   = static::adapter($name)->getImageSize($filename, $options);
+		$params   = compact('filename');
+		return static::_filter(__FUNCTION__, $params, $method, $settings[$name]['filters']);
+	}
+
+
+	/**
+	 * Gets Image Exif Data
+	 *
+	 * @param string $name Configuration to be used for deletion
+	 * @param mixed $filename a full path with filename and extension to be read
+	 * @param mixed $options Options for the method and strategies.
+	 * @return boolean True on successful check, false otherwise
+	 * @filter This method may be filtered.
+	 */
+	public static function getExifData($name, $filename, array $options = array()) {
+		$settings = static::config();
+
+		if (!isset($settings[$name])) {
+			return false;
+		}
+
+		$method   = static::adapter($name)->getExifData($filename, $options);
+		$params   = compact('filename');
+		return static::_filter(__FUNCTION__, $params, $method, $settings[$name]['filters']);
+	}
 }
 
 ?>

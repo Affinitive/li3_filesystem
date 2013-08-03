@@ -63,6 +63,10 @@ class File extends \lithium\core\Object {
 			$data = $params['data'];
 			$path = "{$path}/{$params['filename']}";
 
+			if (!file_exists(dirname($path))) {
+				$this->makeDir(dirname($path));
+			}
+
 			if (file_put_contents($path, $data)) {
 				return $params['filename'];
 			}
@@ -119,7 +123,6 @@ class File extends \lithium\core\Object {
 		$path = $this->_config['path'];
 		return function($self, $params) use (&$path) {
 			$path = "{$path}/{$params['filename']}";
-
 			clearstatcache(true, $path);
 			return file_exists($path);
 		};
@@ -143,6 +146,31 @@ class File extends \lithium\core\Object {
 				return file_exists($path);
 			}
 			return true;
+		};
+	}
+
+	/**
+	 * @param string $filename
+	 * @return boolean
+	 */
+	public function getImageSize($filename, $params = array()) {
+		$path = $this->_config['path'];
+		return function($self, $params) use (&$path) {
+			extract($params);
+			$path = "{$path}/{$params['filename']}";
+			if (!file_exists($path)) {
+				return getimagesize($path);
+			}
+			return array(0,0);
+		};
+	}
+
+	public function getExifData($filename, $params = array()) {
+		$path = $this->_config['path'];
+		return function($self, $params) use (&$path) {
+			extract($params);
+			$path = "{$path}/{$params['filename']}";
+			return exif_read_data($path);
 		};
 	}
 }
