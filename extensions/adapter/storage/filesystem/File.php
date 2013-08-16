@@ -64,11 +64,11 @@ class File extends \lithium\core\Object {
 			$path = "{$path}/{$params['filename']}";
 
 			if (!file_exists(dirname($path))) {
-				$this->makeDir(dirname($path));
+				mkdir(dirname($path), 0775, true);
 			}
 
 			if (file_put_contents($path, $data)) {
-				return $params['filename'];
+				return $path;
 			}
 
 			return false;
@@ -83,11 +83,13 @@ class File extends \lithium\core\Object {
 		$path = $this->_config['path'];
 
 		return function($self, $params) use (&$path) {
-			$path = "{$path}/{$params['filename']}";
-
-			if (file_exists($path)) {
-				return file_get_contents($path);
+			if ($params['filename'][0] == "/") {
+				$path = "{$path}{$params['filename']}";
+			} else {
+				$path = "{$path}/{$params['filename']}";
 			}
+
+				return file_get_contents($path);
 
 			return false;
 		};
