@@ -77,7 +77,7 @@ class FileSystem extends \lithium\core\Adaptable {
 		}
 
 		if ($options['strategies']) {
-			$options = array('filename' => $filename);
+			$options += array('filename' => $filename);
 			$data = static::applyStrategies(__FUNCTION__, $name, $data, $options);
 		}
 
@@ -86,7 +86,7 @@ class FileSystem extends \lithium\core\Adaptable {
 		}
 
 		$method = static::adapter($name)->write($filename, $data, $options);
-		$params = compact('filename', 'data');
+		$params = compact('filename', 'data', 'options');
 		return static::_filter(__FUNCTION__, $params, $method, $settings[$name]['filters']);
 	}
 
