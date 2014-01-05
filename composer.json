@@ -1,5 +1,5 @@
 {
-    "name": "affinitive/li3_filesystem",
+    "name": "shoptology/li3_filesystem",
     "type": "lithium-library",
     "description": "File management (file browser) for Lithium PHP framework",
     "keywords": [
@@ -10,7 +10,7 @@
         "lithium",
         "li3"
     ],
-    "homepage": "https://github.com/affinitive/li3_filesystem",
+    "homepage": "https://github.com/shoptology/li3_filesystem",
     "license": "BSD-3-Clause",
     "minimum-stability": "dev",
     "authors": [
